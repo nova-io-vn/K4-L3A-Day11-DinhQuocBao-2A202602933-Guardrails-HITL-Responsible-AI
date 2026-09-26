@@ -39,6 +39,13 @@ from core.config import ALLOWED_TOPICS, BLOCKED_TOPICS
 InputStatus = Literal["ALLOW", "BLOCK"]
 
 
+def _fold_text(value: str) -> str:
+    """Normalize case, accents and spacing for reliable Vietnamese matching."""
+    value = unicodedata.normalize("NFKD", value or "")
+    value = "".join(char for char in value if not unicodedata.combining(char))
+    return re.sub(r"\s+", " ", value).strip().lower()
+
+
 # ============================================================
 # Implement detect_injection()
 #
@@ -108,10 +115,24 @@ def topic_filter(user_input: str) -> InputStatus:
         ``"BLOCK"`` = chặn (off-topic hoặc topic cấm).
         ``"ALLOW"`` = cho qua (câu banking hợp lệ).
     """
-    input_lower = unicodedata.normalize("NFKC", user_input or "").lower()
-    if any(re.search(rf"\b{re.escape(topic)}\b", input_lower) for topic in BLOCKED_TOPICS):
+    input_lower = _fold_text(user_input)
+    blocked_topics = (_fold_text(topic) for topic in BLOCKED_TOPICS)
+    allowed_topics = (_fold_text(topic) for topic in ALLOWED_TOPICS)
+    if any(re.search(rf"\b{re.escape(topic)}\b", input_lower) for topic in blocked_topics):
         return "BLOCK"
-    if not any(re.search(rf"\b{re.escape(topic)}\b", input_lower) for topic in ALLOWED_TOPICS):
+    # Short greetings and requests for customer support are safe entry points.
+    # They are handed to the banking assistant, which keeps the conversation on-topic.
+    general_support_patterns = [
+        r"^(hi|hello|hey|good\s+(morning|afternoon|evening))\b",
+        r"^(xin\s+chao|chao|cam\s+on|thank\s+you)\b",
+        r"\b(how\s+are\s+you|what\s+can\s+you\s+do|who\s+are\s+you)\b",
+        r"\b(ban\s+co\s+the\s+giup|giup\s+toi|can\s+ho\s+tro)\b",
+        r"\b(i|i'm|i am|toi|minh)\s+(need|want|can|muon|can)\s+(help|support|ho\s+tro|giup)\b",
+        r"\b(customer\s+service|customer\s+support|hotline)\b",
+    ]
+    if any(re.search(pattern, input_lower) for pattern in general_support_patterns):
+        return "ALLOW"
+    if not any(re.search(rf"\b{re.escape(topic)}\b", input_lower) for topic in allowed_topics):
         return "BLOCK"
     return "ALLOW"
 

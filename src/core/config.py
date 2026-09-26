@@ -268,9 +268,15 @@ ALLOWED_TOPICS = [
     "banking", "account", "transaction", "transfer",
     "loan", "interest", "savings", "credit",
     "deposit", "withdrawal", "balance", "payment",
+    "card", "debit", "branch", "fee", "fees", "charge",
+    "statement", "mobile app", "app", "otp", "verification",
+    "customer service", "support", "cash", "currency", "exchange rate",
+    "open account", "close account", "pin", "limit", "bill",
     "tai khoan", "giao dich", "tiet kiem", "lai suat",
     "chuyen tien", "the tin dung", "so du", "vay",
-    "ngan hang", "atm",
+    "ngan hang", "atm", "the", "chi nhanh", "phi", "ung dung",
+    "ma otp", "xac minh", "sao ke", "han muc", "ty gia",
+    "nap tien", "rut tien", "mo tai khoan", "dong tai khoan",
 ]
 
 BLOCKED_TOPICS = [

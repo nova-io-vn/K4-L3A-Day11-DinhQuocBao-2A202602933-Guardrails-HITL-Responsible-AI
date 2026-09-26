@@ -3,83 +3,162 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VinBank Sky Assistant</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <title>VinBank AI — Trợ lý ngân hàng bảo mật</title>
+  <meta name="description" content="VinBank AI Assistant với guardrails bảo mật nhiều lớp." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="sky-bg" aria-hidden="true">
-    <span class="orb orb-one"></span><span class="orb orb-two"></span>
-    <span class="cloud cloud-one"></span><span class="cloud cloud-two"></span>
-    <span class="cloud cloud-three"></span>
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
   </div>
 
   <main class="app-shell">
-    <aside class="sidebar glass-card">
-      <div class="brand">
-        <div class="brand-mark"><span class="brand-mark-inner">V</span></div>
-        <div><strong>VinBank</strong><small>Sky Assistant</small></div>
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z" fill="currentColor"/></svg>
+        </div>
+        <span>VinBank AI</span>
       </div>
-
-      <button class="new-chat" id="newChatBtn"><span>＋</span> Cuộc trò chuyện mới</button>
 
       <div class="sidebar-section">
-        <div class="section-label">Gợi ý nhanh</div>
-        <button class="side-prompt" data-prompt="Tôi muốn kiểm tra số dư tài khoản">Số dư tài khoản <span>↗</span></button>
-        <button class="side-prompt" data-prompt="Lãi suất tiết kiệm 12 tháng hiện tại là bao nhiêu?">Lãi suất tiết kiệm <span>↗</span></button>
-        <button class="side-prompt" data-prompt="Hướng dẫn chuyển tiền đến tài khoản khác">Chuyển tiền <span>↗</span></button>
+        <div class="sidebar-label">Trạng thái bảo mật</div>
+
+        <div class="status-card">
+          <div class="status-icon blue-icon">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M8 12l3 3 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="status-info">
+            <div class="status-name">Blue Agent</div>
+            <div class="status-desc">LFM-2.5 · OpenRouter</div>
+          </div>
+          <span class="dot-badge green"></span>
+        </div>
+
+        <div class="status-card">
+          <div class="status-icon yellow-icon">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="status-info">
+            <div class="status-name">Guardrails</div>
+            <div class="status-desc">Input + Output filter</div>
+          </div>
+          <span class="dot-badge green"></span>
+        </div>
+
+        <div class="status-card">
+          <div class="status-icon red-icon">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="status-info">
+            <div class="status-name">Secret Shield</div>
+            <div class="status-desc">Password / Key guard</div>
+          </div>
+          <span class="dot-badge green"></span>
+        </div>
       </div>
 
-      <div class="sidebar-bottom">
-        <div class="security-chip"><span class="pulse-dot"></span><div><b>Bảo vệ đang bật</b><small>Guardrails & audit active</small></div></div>
-        <div class="sidebar-foot"><span>⌁</span> VinBank secure space <span class="live-dot"></span></div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Câu hỏi gợi ý</div>
+        <button class="quick-pill" data-prompt="Tôi muốn kiểm tra số dư tài khoản">💳 Kiểm tra số dư</button>
+        <button class="quick-pill" data-prompt="Lãi suất tiết kiệm 12 tháng hiện tại là bao nhiêu?">📈 Lãi suất tiết kiệm</button>
+        <button class="quick-pill" data-prompt="Hướng dẫn chuyển tiền đến tài khoản khác">🔁 Chuyển khoản</button>
+        <button class="quick-pill" data-prompt="Điều kiện vay tiêu dùng không thế chấp?">🏦 Vay tiêu dùng</button>
+      </div>
+
+      <div class="sidebar-stats">
+        <div class="stat-box">
+          <div class="stat-num" id="statTotal">0</div>
+          <div class="stat-lbl">Tin nhắn</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num red-num" id="statBlocked">0</div>
+          <div class="stat-lbl">Bị chặn</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num green-num" id="statRate">—</div>
+          <div class="stat-lbl">Bảo mật</div>
+        </div>
       </div>
     </aside>
 
-    <section class="chat-panel glass-card">
+    <section class="chat-panel">
       <header class="chat-header">
-        <div class="assistant-profile">
-          <div class="avatar-wrap"><div class="assistant-avatar">✦</div><span class="online-badge"></span></div>
-          <div><h1>Xin chào, tôi là Sky</h1><p><span class="status-dot"></span> Trợ lý VinBank · đang trực tuyến</p></div>
+        <div class="chat-header-left">
+          <div class="avatar-ring">
+            <div class="avatar-core">✦</div>
+          </div>
+          <div>
+            <div class="chat-title">Sky Assistant</div>
+            <div class="chat-online">● Trực tuyến · Bảo vệ đang hoạt động</div>
+          </div>
         </div>
-        <div class="header-actions"><button class="icon-btn" title="Tìm kiếm">⌕</button><button class="icon-btn" title="Tuỳ chọn">•••</button></div>
+        <button class="hdr-btn" id="newChatBtn" title="Cuộc trò chuyện mới">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          Mới
+        </button>
       </header>
 
-      <div class="chat-scroll" id="chatScroll">
-        <div class="welcome-card">
-          <div class="welcome-sun">☼</div>
-          <div><span class="eyebrow">VINBANK DIGITAL CARE</span><h2>Hôm nay bạn cần<br><em>mình hỗ trợ gì?</em></h2><p>Hỏi nhanh về tài khoản, giao dịch, tiết kiệm, khoản vay hoặc thẻ tín dụng.</p></div>
-          <div class="welcome-spark spark-a">✦</div><div class="welcome-spark spark-b">✧</div>
+      <div class="chat-body" id="chatScroll">
+        <div class="welcome-block">
+          <div class="welcome-glow">✦</div>
+          <div>
+            <div class="welcome-tag">VINBANK AI · GUARDRAILS ENABLED</div>
+            <h1>Xin chào! Tôi có thể giúp gì?</h1>
+            <p>Hỏi về tài khoản, giao dịch, tiết kiệm, khoản vay hoặc thẻ tín dụng. Thông tin nhạy cảm được bảo vệ tự động.</p>
+          </div>
         </div>
 
-        <div class="message-row bot-message">
-          <div class="mini-avatar">✦</div>
-          <div class="message-content"><div class="message-meta">Sky <span>09:41</span></div><div class="bubble">Chào bạn! Mình có thể giúp bạn tra cứu thông tin ngân hàng và hướng dẫn các thao tác an toàn. Bạn muốn bắt đầu từ đâu?</div></div>
+        <div class="message-row bot-row">
+          <div class="msg-av bot-av">✦</div>
+          <div class="msg-wrap">
+            <div class="msg-meta">Sky Assistant <span>09:41</span></div>
+            <div class="msg-bubble bot-bubble">
+              Chào bạn! Mình là trợ lý VinBank với <strong>bảo vệ nhiều lớp</strong>. Mình <em>không thể trả lời</em> câu hỏi về mật khẩu, API key hoặc thông tin hệ thống. Hãy đặt câu hỏi ngân hàng! 🔒
+            </div>
+          </div>
         </div>
 
-        <div class="quick-grid" id="quickGrid">
-          <button class="quick-card" data-prompt="Tôi muốn kiểm tra số dư tài khoản"><span class="quick-icon blue">◌</span><span>Kiểm tra số dư</span><small>Tài khoản của tôi</small><b>↗</b></button>
-          <button class="quick-card" data-prompt="Lãi suất tiết kiệm 12 tháng hiện tại là bao nhiêu?"><span class="quick-icon cyan">↗</span><span>Lãi suất tiết kiệm</span><small>Tìm khoản sinh lời</small><b>↗</b></button>
-          <button class="quick-card" data-prompt="Hướng dẫn chuyển tiền đến tài khoản khác"><span class="quick-icon indigo">⇄</span><span>Chuyển tiền</span><small>Hướng dẫn từng bước</small><b>↗</b></button>
+        <div class="quick-section" id="quickSection">
+          <div class="quick-label">Câu hỏi phổ biến</div>
+          <div class="quick-grid" id="quickGrid">
+            <button class="quick-card" data-prompt="Tôi muốn kiểm tra số dư tài khoản">
+              <span class="qc-num blue-n">01</span>
+              <strong>Kiểm tra số dư</strong>
+              <small>Thông tin tài khoản →</small>
+            </button>
+            <button class="quick-card" data-prompt="Lãi suất tiết kiệm 12 tháng hiện tại là bao nhiêu?">
+              <span class="qc-num yellow-n">02</span>
+              <strong>Lãi suất tiết kiệm</strong>
+              <small>Khoản tiền gửi →</small>
+            </button>
+            <button class="quick-card" data-prompt="Hướng dẫn chuyển tiền đến tài khoản khác">
+              <span class="qc-num red-n">03</span>
+              <strong>Chuyển tiền</strong>
+              <small>Hướng dẫn giao dịch →</small>
+            </button>
+          </div>
         </div>
       </div>
 
-      <div class="composer-wrap">
-        <div class="composer" id="composer">
-          <button class="attach-btn" title="Đính kèm">＋</button>
-          <textarea id="messageInput" rows="1" placeholder="Nhập câu hỏi của bạn..."></textarea>
-          <div class="composer-tools"><button class="voice-btn" title="Nhập bằng giọng nói">◉</button><button class="send-btn" id="sendBtn" title="Gửi">↑</button></div>
+      <footer class="chat-footer">
+        <div class="composer" id="composerBox">
+          <textarea id="messageInput" rows="1" placeholder="Nhập câu hỏi ngân hàng của bạn..."></textarea>
+          <button class="send-btn" id="sendBtn" title="Gửi">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
         </div>
-        <div class="composer-note"><span>⌁ Tin nhắn được bảo vệ bởi VinBank Guardrails</span><span><kbd>Enter</kbd> gửi · <kbd>Shift</kbd> + <kbd>Enter</kbd> xuống dòng</span></div>
-      </div>
+        <div class="composer-hint">
+          <span>🔒 Không gửi mật khẩu · API key · Mã OTP trong chat</span>
+          <span><kbd>Enter</kbd> gửi · <kbd>Shift+Enter</kbd> xuống dòng</span>
+        </div>
+      </footer>
     </section>
-
-    <aside class="info-panel">
-      <div class="info-card glass-card"><div class="info-icon">✦</div><div class="eyebrow">TRỢ LÝ THÔNG MINH</div><h3>Nhẹ nhàng như<br>bầu trời sáng.</h3><p>Sky giúp bạn xử lý những câu hỏi ngân hàng hàng ngày với trải nghiệm rõ ràng, riêng tư và an toàn.</p><div class="info-line"><span>◒</span><div><b>Phản hồi tức thì</b><small>Hỗ trợ 24/7 cho câu hỏi phổ biến</small></div></div><div class="info-line"><span>♢</span><div><b>Riêng tư mặc định</b><small>Thông tin nhạy cảm luôn được bảo vệ</small></div></div></div>
-      <div class="mini-stats glass-card"><div><strong>99.9%</strong><span>Uptime</span></div><div><strong>24/7</strong><span>Hỗ trợ</span></div><div><strong>100%</strong><span>An toàn</span></div></div>
-    </aside>
   </main>
 
   <script src="app.js"></script>
