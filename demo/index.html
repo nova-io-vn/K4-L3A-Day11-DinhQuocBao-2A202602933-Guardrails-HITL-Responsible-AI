@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VinBank Sky Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="sky-bg" aria-hidden="true">
+    <span class="orb orb-one"></span><span class="orb orb-two"></span>
+    <span class="cloud cloud-one"></span><span class="cloud cloud-two"></span>
+    <span class="cloud cloud-three"></span>
+  </div>
+
+  <main class="app-shell">
+    <aside class="sidebar glass-card">
+      <div class="brand">
+        <div class="brand-mark"><span class="brand-mark-inner">V</span></div>
+        <div><strong>VinBank</strong><small>Sky Assistant</small></div>
+      </div>
+
+      <button class="new-chat" id="newChatBtn"><span>＋</span> Cuộc trò chuyện mới</button>
+
+      <div class="sidebar-section">
+        <div class="section-label">Gợi ý nhanh</div>
+        <button class="side-prompt" data-prompt="Tôi muốn kiểm tra số dư tài khoản">Số dư tài khoản <span>↗</span></button>
+        <button class="side-prompt" data-prompt="Lãi suất tiết kiệm 12 tháng hiện tại là bao nhiêu?">Lãi suất tiết kiệm <span>↗</span></button>
+        <button class="side-prompt" data-prompt="Hướng dẫn chuyển tiền đến tài khoản khác">Chuyển tiền <span>↗</span></button>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="security-chip"><span class="pulse-dot"></span><div><b>Bảo vệ đang bật</b><small>Guardrails & audit active</small></div></div>
+        <div class="sidebar-foot"><span>⌁</span> VinBank secure space <span class="live-dot"></span></div>
+      </div>
+    </aside>
+
+    <section class="chat-panel glass-card">
+      <header class="chat-header">
+        <div class="assistant-profile">
+          <div class="avatar-wrap"><div class="assistant-avatar">✦</div><span class="online-badge"></span></div>
+          <div><h1>Xin chào, tôi là Sky</h1><p><span class="status-dot"></span> Trợ lý VinBank · đang trực tuyến</p></div>
+        </div>
+        <div class="header-actions"><button class="icon-btn" title="Tìm kiếm">⌕</button><button class="icon-btn" title="Tuỳ chọn">•••</button></div>
+      </header>
+
+      <div class="chat-scroll" id="chatScroll">
+        <div class="welcome-card">
+          <div class="welcome-sun">☼</div>
+          <div><span class="eyebrow">VINBANK DIGITAL CARE</span><h2>Hôm nay bạn cần<br><em>mình hỗ trợ gì?</em></h2><p>Hỏi nhanh về tài khoản, giao dịch, tiết kiệm, khoản vay hoặc thẻ tín dụng.</p></div>
+          <div class="welcome-spark spark-a">✦</div><div class="welcome-spark spark-b">✧</div>
+        </div>
+
+        <div class="message-row bot-message">
+          <div class="mini-avatar">✦</div>
+          <div class="message-content"><div class="message-meta">Sky <span>09:41</span></div><div class="bubble">Chào bạn! Mình có thể giúp bạn tra cứu thông tin ngân hàng và hướng dẫn các thao tác an toàn. Bạn muốn bắt đầu từ đâu?</div></div>
+        </div>
+
+        <div class="quick-grid" id="quickGrid">
+          <button class="quick-card" data-prompt="Tôi muốn kiểm tra số dư tài khoản"><span class="quick-icon blue">◌</span><span>Kiểm tra số dư</span><small>Tài khoản của tôi</small><b>↗</b></button>
+          <button class="quick-card" data-prompt="Lãi suất tiết kiệm 12 tháng hiện tại là bao nhiêu?"><span class="quick-icon cyan">↗</span><span>Lãi suất tiết kiệm</span><small>Tìm khoản sinh lời</small><b>↗</b></button>
+          <button class="quick-card" data-prompt="Hướng dẫn chuyển tiền đến tài khoản khác"><span class="quick-icon indigo">⇄</span><span>Chuyển tiền</span><small>Hướng dẫn từng bước</small><b>↗</b></button>
+        </div>
+      </div>
+
+      <div class="composer-wrap">
+        <div class="composer" id="composer">
+          <button class="attach-btn" title="Đính kèm">＋</button>
+          <textarea id="messageInput" rows="1" placeholder="Nhập câu hỏi của bạn..."></textarea>
+          <div class="composer-tools"><button class="voice-btn" title="Nhập bằng giọng nói">◉</button><button class="send-btn" id="sendBtn" title="Gửi">↑</button></div>
+        </div>
+        <div class="composer-note"><span>⌁ Tin nhắn được bảo vệ bởi VinBank Guardrails</span><span><kbd>Enter</kbd> gửi · <kbd>Shift</kbd> + <kbd>Enter</kbd> xuống dòng</span></div>
+      </div>
+    </section>
+
+    <aside class="info-panel">
+      <div class="info-card glass-card"><div class="info-icon">✦</div><div class="eyebrow">TRỢ LÝ THÔNG MINH</div><h3>Nhẹ nhàng như<br>bầu trời sáng.</h3><p>Sky giúp bạn xử lý những câu hỏi ngân hàng hàng ngày với trải nghiệm rõ ràng, riêng tư và an toàn.</p><div class="info-line"><span>◒</span><div><b>Phản hồi tức thì</b><small>Hỗ trợ 24/7 cho câu hỏi phổ biến</small></div></div><div class="info-line"><span>♢</span><div><b>Riêng tư mặc định</b><small>Thông tin nhạy cảm luôn được bảo vệ</small></div></div></div>
+      <div class="mini-stats glass-card"><div><strong>99.9%</strong><span>Uptime</span></div><div><strong>24/7</strong><span>Hỗ trợ</span></div><div><strong>100%</strong><span>An toàn</span></div></div>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
