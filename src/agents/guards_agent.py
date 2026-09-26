@@ -11,11 +11,28 @@ from __future__ import annotations
 
 import re
 
-from google.adk.agents import llm_agent
-from google.adk import runners
-from google.adk.plugins import base_plugin
-from google.adk.agents.invocation_context import InvocationContext
-from google.genai import types
+try:
+    from google.adk.agents import llm_agent
+    from google.adk import runners
+    from google.adk.plugins import base_plugin
+    from google.adk.agents.invocation_context import InvocationContext
+except ImportError:
+    class _BasePlugin:
+        def __init__(self, name=None): self.name = name or self.__class__.__name__
+    class base_plugin: BasePlugin = _BasePlugin
+    class InvocationContext: pass
+    class llm_agent: LlmAgent = object
+    class runners: InMemoryRunner = object
+try:
+    from google.genai import types
+except ImportError:
+    class _Part:
+        def __init__(self, text=""): self.text = text
+        @classmethod
+        def from_text(cls, text): return cls(text)
+    class _Content:
+        def __init__(self, role="user", parts=None): self.role, self.parts = role, parts or []
+    class types: Content, Part = _Content, _Part
 
 from agents.security_boundary import (
     ActionDecision,

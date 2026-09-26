@@ -155,6 +155,11 @@ async def main(parts=None):
 
 
 if __name__ == "__main__":
+    # Keep Vietnamese status messages printable on the default Windows console.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(
         description=(
             "Lab 11: Guardrails / HITL / Red Team — "

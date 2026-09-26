@@ -7,10 +7,26 @@ Checkpoint 2 — Output Guardrails
 import re
 import textwrap
 
-from google.genai import types
-from google.adk.agents import llm_agent
-from google.adk import runners
-from google.adk.plugins import base_plugin
+try:
+    from google.genai import types
+except ImportError:
+    class _Part:
+        def __init__(self, text=""): self.text = text
+        @classmethod
+        def from_text(cls, text): return cls(text)
+    class _Content:
+        def __init__(self, role="user", parts=None): self.role, self.parts = role, parts or []
+    class types: Content, Part = _Content, _Part
+try:
+    from google.adk.agents import llm_agent
+    from google.adk import runners
+    from google.adk.plugins import base_plugin
+except ImportError:
+    class _BasePlugin:
+        def __init__(self, name=None): self.name = name or self.__class__.__name__
+    class base_plugin: BasePlugin = _BasePlugin
+    class llm_agent: LlmAgent = object
+    class runners: InMemoryRunner = object
 
 from core.utils import chat_with_agent
 
@@ -41,16 +57,16 @@ def content_filter(response: str) -> dict:
 
     # PII patterns to check
     PII_PATTERNS = {
-        # TODO: Add regex patterns for:
-        # - VN phone number: r"0\d{9,10}"
-        # - Email: r"[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}"
-        # - National ID (CMND/CCCD): r"\b\d{9}\b|\b\d{12}\b"
-        # - API key pattern: r"sk-[a-zA-Z0-9-]+"
-        # - Password pattern: r"password\s*[:=]\s*\S+"
+        "phone": r"(?<!\d)0\d{9,10}(?!\d)",
+        "email": r"[\w.+-]+@[\w.-]+\.[a-zA-Z]{2,}",
+        "national_id": r"(?<!\d)(?:\d{9}|\d{12})(?!\d)",
+        "api_key": r"\bsk-[a-zA-Z0-9-]{8,}\b",
+        "password": r"\b(?:admin\s+)?password\s*[:=]\s*\S+|\badmin123\b",
+        "db_host": r"\b[a-zA-Z0-9.-]+\.internal(?::\d+)?\b",
     }
 
     for name, pattern in PII_PATTERNS.items():
-        matches = re.findall(pattern, response, re.IGNORECASE)
+        matches = re.findall(pattern, response or "", re.IGNORECASE)
         if matches:
             issues.append(f"{name}: {len(matches)} found")
             redacted = re.sub(pattern, "[REDACTED]", redacted, flags=re.IGNORECASE)
@@ -172,16 +188,21 @@ class OutputGuardrailPlugin(base_plugin.BasePlugin):
         if not response_text:
             return llm_response
 
-        # TODO: Implement logic:
-        # 1. Call content_filter(response_text)
-        #    - If issues found: replace llm_response.content with redacted version
-        #    - Increment self.redacted_count
-        # 2. If use_llm_judge: call llm_safety_check(response_text)
-        #    - If unsafe: replace llm_response.content with a safe message
-        #    - Increment self.blocked_count
-        # 3. Return llm_response (possibly modified)
-
-        return llm_response  # TODO: modify if needed
+        filtered = content_filter(response_text)
+        if not filtered["safe"]:
+            self.redacted_count += 1
+            llm_response.content = types.Content(
+                role="model", parts=[types.Part.from_text(text=filtered["redacted"])]
+            )
+        if self.use_llm_judge:
+            verdict = await llm_safety_check(response_text)
+            if not verdict["safe"]:
+                self.blocked_count += 1
+                llm_response.content = types.Content(
+                    role="model",
+                    parts=[types.Part.from_text(text="I cannot provide that information. I can help with VinBank banking services.")],
+                )
+        return llm_response
 
 
 # ============================================================
